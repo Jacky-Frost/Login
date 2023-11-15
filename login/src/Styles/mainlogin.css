@@ -1,0 +1,57 @@
+.mainlogin-div {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 30px;
+}
+
+.login--button {
+    text-align: center;
+    border-bottom: 2px solid black;
+}
+
+.login--button a:any-link {
+    display: block;
+    width: 200px;
+    border: 2px solid black;
+    font-size: 1.2rem;
+    padding: 15px;
+    color: black;
+    text-decoration: none;
+}
+
+.login-input input {
+    font-size: 1.5rem;
+    padding: 10px;
+    width: min(500px, 80vw);
+    min-height: 60px;
+
+}
+
+.login-input p {
+    width: min(500px, 80vw);
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.64);
+    color: white;
+    font-size: 1.2rem;
+}
+
+.mainlogin-div button {
+    font-size: 1.4rem;
+    width: min(500px, 80vw);
+    min-height: 60px;
+    background: rgba(0, 0, 255, 0.257);
+    border: 2px solid white;
+}
+
+.error-message {
+    width: min(500px, 80vw);
+    min-height: 60px;
+    background: rgba(255, 0, 43, 0.333);
+    border: 2px solid red;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 1.2rem;
+}
