@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import './Styles/mainlogin.css'
 import './Styles/main.css'
@@ -66,7 +67,7 @@ function Register() {
 
     // Handle Submit Function
 
-    const handleSumbit = (e) => {
+    const handleSumbit = async (e) => {
         e.preventDefault()
         //  Check Fields
         const validEmail = EMAIL_REG.test(email)
@@ -75,7 +76,21 @@ function Register() {
         const matchPwd = pwd === confirmPwd
 
         if (validEmail && validUser && validPwd && matchPwd) {
-            console.log('valid')
+            try {
+                await axios.post('/login', {
+                    email: email,
+                    username: username,
+                    password: password
+                })
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
 
     }
