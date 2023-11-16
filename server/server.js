@@ -20,6 +20,8 @@ server.use(express.json())
 //  End MiddleWare  //
 
 server.use('/register', require('./routes/register'))
+server.use('/login', require('./routes/login'))
+
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB')
