@@ -1,4 +1,7 @@
 const User = require('../data/User')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
 
 const handleRegister = async (req,res) => {
     const { email, username, password } = req.body
@@ -20,10 +23,11 @@ const handleRegister = async (req,res) => {
     }
 
     try {
+        const hashedPWD = await bcrypt.hash(password, saltRounds)
         await User.create({
             "email": email,
             "username": username,
-            "password": password
+            "password": hashedPWD
         })
         res.status(202).json({ 'message': 'new user created'})
     } catch (error) {
