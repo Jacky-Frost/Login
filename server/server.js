@@ -1,17 +1,27 @@
-// Core Modules
-const express = require('express')
-
-// Environment
+//  Environment
 require('dotenv').config()
 
-//  Define PORT
+// Core Modules
+const express = require('express')
+const mongoose = require('mongoose')
+const connectDB = require('./config/dbConn')
+
+//  Define PORT and Connect to MongoDB
 const PORT = process.env.PORT || 5000
+connectDB()
 
 //  Create Server
 const server = express()
 
-//  ROUTES
-server.use('/login', require('./routes/login'))
+//  MiddleWare  //
+
+server.use(express.json())
+
+//  End MiddleWare  //
+
 server.use('/register', require('./routes/register'))
 
-server.listen(PORT, console.log(`Server listening on port ${PORT}`))
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB')
+    server.listen(PORT, console.log(`Server listening on port ${PORT}`))
+})
