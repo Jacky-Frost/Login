@@ -5,6 +5,8 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const connectDB = require('./config/dbConn')
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 
 //  Define PORT and Connect to MongoDB
 const PORT = process.env.PORT || 5000
@@ -15,6 +17,7 @@ const server = express()
 
 //  MiddleWare  //
 
+server.use(cors(corsOptions))
 server.use(express.json())
 
 //  End MiddleWare  //
