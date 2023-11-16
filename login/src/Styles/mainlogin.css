@@ -44,14 +44,43 @@
     min-height: 60px;
     background: rgba(0, 0, 255, 0.257);
     border: 2px solid white;
+    cursor: pointer;
+}
+
+.mainlogin-div button:active {
+    background: blueviolet;
 }
 
 .error-message {
     width: min(500px, 80vw);
     min-height: 60px;
-    background: rgba(255, 0, 43, 0.333);
-    border: 2px solid red;
+    background: rgba(245, 0, 0, 0.351);
+    border: 2px solid rgb(0, 30, 255);
     text-align: center;
     padding-top: 20px;
     font-size: 1.2rem;
+}
+
+.success-div {
+    position: absolute;
+    left: calc(50vw - 175px);
+    top: calc(15vh);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    width: 350px;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 5%;
+    background: rgb(148, 255, 148);
+}
+
+.success-div h1 {
+    font-size: 3rem;
+}
+
+.success-div p {
+    font-size: 1.5rem;
 }

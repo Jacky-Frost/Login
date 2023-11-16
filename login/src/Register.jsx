@@ -28,6 +28,8 @@ function Register() {
     const [username, setUsername] = useState(null)
     const [pwd, setPwd] = useState(null)
     const [confirmPwd, setConfirmPwd] = useState(null)
+    const [message, setMessage] = useState('')
+    const [success, setSuccess] = useState(false)
 
     // Effects
 
@@ -39,6 +41,9 @@ function Register() {
 
         //  Focus on Email
         emailRef.current.focus()
+
+        //  Hide message
+        document.querySelectorAll('.error-message').forEach((item) => item.classList.add('offScreen'))
     }, [])
 
     useEffect(() => {
@@ -65,6 +70,10 @@ function Register() {
         // eslint-disable-next-line
     }, [pwd, confirmPwd])
 
+    useEffect(() => {
+        message === '' ? document.querySelectorAll('.error-message').forEach((item) => item.classList.add('offScreen')) : document.querySelectorAll('.error-message').forEach((item) => item.classList.remove('offScreen'))
+    }, [message])
+
     // Handle Submit Function
 
     const handleSumbit = async (e) => {
@@ -72,67 +81,73 @@ function Register() {
         //  Check Fields
         const validEmail = EMAIL_REG.test(email)
         const validUser = USER_REG.test(username)
-        const validPwd = USER_REG.test(pwd)
+        const validPwd = PWD_REG.test(pwd)
         const matchPwd = pwd === confirmPwd
 
         if (validEmail && validUser && validPwd && matchPwd) {
             try {
-                await axios.post('/login', {
+                axios.post('http://localhost:5000/register', {
                     email: email,
                     username: username,
-                    password: password
+                    password: pwd
                 })
-                .then(function (response) {
-                    console.log(response)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
+                    .then(function (response) {
+                        setMessage(response.data.message)
+                        setSuccess(true)
+                    })
+                    .catch(function (error) {
+                        setMessage(error.response.data.message)
+                    })
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            setMessage('Something is not quite right')
         }
 
     }
 
     return (
         <div>
-            <form action="">
+            {success ? <Success /> : <form action="">
                 <div className='mainlogin-div'>
                     <h1>Register</h1>
                     <div className="login-input">
-                        <input type="email" placeHolder='Email' required ref={emailRef} onChange={(e) => {
+                        <input type="email" placeholder='Email' required ref={emailRef} onChange={(e) => {
                             setEmail(e.target.value)
-                        }}/>
+                        }} />
                         <p id='emailInf' className='text-info'>
                             Email invalid
                         </p>
                     </div>
                     <div className="login-input">
-                        <input type="text" placeHolder='Username' required ref={userRef} onChange={(e) => {
+                        <input type="text" placeholder='Username' required ref={userRef} onChange={(e) => {
                             setUsername(e.target.value)
 
-                        }}/>
+                        }} />
                         <p id='userInf' className='text-info'>
                             Username between 4 and 24 characters, letters, numbers and _ and - are allowed, no other special characters.
                         </p>
                     </div>
                     <div className="login-input">
-                        <input type="password" placeHolder='Password' required ref={pwdRef} onChange={(e) => {
+                        <input type="password" placeholder='Password' required ref={pwdRef} onChange={(e) => {
                             setPwd(e.target.value)
-                        }}/>
+                        }} />
                         <p id='pwdInf' className='text-info'>
                             Anything between 4 to 24 characters, letters, numbers, ! @ # $ % ^ & * - _ = + are all allowed
                         </p>
                     </div>
                     <div className="login-input">
-                        <input type="password" placeHolder='Confirm Password' required ref={confirmPwdRef} onChange={(e) => {
+                        <input type="password" placeholder='Confirm Password' required ref={confirmPwdRef} onChange={(e) => {
                             setConfirmPwd(e.target.value)
-                        }}/>
+                        }} />
                         <p id='confirmPwdInf' className='text-info'>
                             Passwords must match!
                         </p>
                     </div>
+                    <p className="error-message">
+                        {message}
+                    </p>
                     <button onClick={(e) => {
                         handleSumbit(e)
                     }}>Register</button>
@@ -140,7 +155,23 @@ function Register() {
                         Have an account? <Link to='/login'>Login</Link>
                     </h2>
                 </div>
-            </form>
+            </form>}
+        </div>
+    )
+}
+
+//  Success Screem
+
+function Success() {
+    return (
+        <div className='success-div'>
+            <h1>
+                Success!
+            </h1>
+            <p>
+                New User has been Created! Now you can login with your account! <br />
+                <Link to='/login'>Login</Link>
+            </p>
         </div>
     )
 }

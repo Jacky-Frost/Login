@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import './Styles/mainlogin.css'
 import './Styles/main.css'
@@ -18,7 +19,7 @@ function Login() {
     const pwdRef = useRef()
 
     //  States
-    const [errorMsg, setErrorMsg] = useState('')
+    const [message, setMessage] = useState('')
     const [username, setUsername] = useState('')
     const [pwd, setPwd] = useState('')
 
@@ -29,13 +30,27 @@ function Login() {
     }, [])
 
     useEffect(() => {
-        errorMsg === '' ? document.querySelector('.error-message').classList.add('offScreen') : document.querySelector('.error-message').classList.remove('offScreen')
-    }, [errorMsg])
+        message === '' ? document.querySelector('.error-message').classList.add('offScreen') : document.querySelector('.error-message').classList.remove('offScreen')
+    }, [message])
 
     //  Handle Login
 
     const handleLogin = () => {
-        (!USER_REG.test(username) || !PWD_REG.test(pwd)) ? setErrorMsg('Username and Password Required') : setErrorMsg(`${username} logged in!`)
+        if (!USER_REG.test(username) || !PWD_REG.test(pwd)) { return setMessage('Username and Password Required') }
+        try {
+            axios.post('http://localhost:5000/login', {
+                username: username,
+                password: pwd
+            })
+            .then( function (response) {
+                setMessage(response.data.message)
+            })
+            .catch( function (error) {
+                setMessage(error.response.data.message)
+            } )
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -54,7 +69,7 @@ function Login() {
                         }} />
                     </div>
                     <p className="error-message">
-                        {errorMsg}
+                        {message}
                     </p>
                     <button onClick={(e) => {
                         e.preventDefault()

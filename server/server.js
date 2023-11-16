@@ -16,7 +16,6 @@ connectDB()
 const server = express()
 
 //  MiddleWare  //
-
 server.use(cors(corsOptions))
 server.use(express.json())
 

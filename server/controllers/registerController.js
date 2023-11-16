@@ -4,8 +4,10 @@ const saltRounds = 10
 
 
 const handleRegister = async (req,res) => {
+
     const { email, username, password } = req.body
     if (!username || !password || !email) {
+    
         return res.status(400).json({ 'message': 'Email, Username and Password Required'})
     }
     
@@ -13,6 +15,7 @@ const handleRegister = async (req,res) => {
     const duplicateEmail = await User.findOne({ email: email }).exec()
 
     if (duplicateUser || duplicateEmail) {
+    
         if (duplicateUser && duplicateEmail) {
             return res.status(409).json({ 'message': `The username ${username} and email are already taken`})
         } else if (duplicateUser) {
@@ -30,8 +33,10 @@ const handleRegister = async (req,res) => {
             "password": hashedPWD
         })
         res.status(202).json({ 'message': 'new user created'})
+    
     } catch (error) {
         res.status(500).json({ 'message': `${error.message}`})
+    
     }
 }
 
