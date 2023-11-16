@@ -3,8 +3,10 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: max(100vh, 686px);
     gap: 30px;
+    background: rgba(139, 97, 252, 0.527);
+    padding: 10px;
 }
 
 .login--button {

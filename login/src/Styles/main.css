@@ -6,5 +6,5 @@
 
 .offScreen {
     position: absolute;
-    left: 150vw;
+    left: -9999px;
 }
